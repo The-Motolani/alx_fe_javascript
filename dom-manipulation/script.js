@@ -1,9 +1,12 @@
 document.addEventListener("DOMContentLoaded", () =>{
+
     const quoteDisplay = document.getElementById("quoteDisplay");
     const showButton = document.getElementById("newQuote");
+    /*
     const newQuoteText = document.getElementById("newQuoteText");
     const newQuoteCategory = document.getElementById("newQuoteCategory");
     const addButton = document.getElementById("addQuoteButton");
+    */
 
     let quotes = [
         {text: "'Formal education will make you a living; self-education will make you a fortune.' - Jim Rohn", category: "Discipline"},
@@ -47,9 +50,37 @@ document.addEventListener("DOMContentLoaded", () =>{
         quoteDisplay.innerHTML = randomQuote.text;
     };
 
+    
+    function createAddQuoteForm() {
+        // Create the container for the form
+        const formContainer = document.createElement("div");
+
+        // Create input fields
+        const quoteInput = document.createElement("input");
+        quoteInput.id = "newQuoteText";
+        quoteInput.placeholder = "Enter a new quote";
+
+        const categoryInput = document.createElement("input");
+        categoryInput.id = "newQuoteCategory";
+        categoryInput.placeholder = "Enter quote category";
+
+        // Create Add button
+        const addButton = document.createElement("button");
+        addButton.textContent = "Add Quote";
+        addButton.addEventListener("click", addQuote);
+
+    // Append elements to the form container
+        formContainer.appendChild(quoteInput);
+        formContainer.appendChild(categoryInput);
+        formContainer.appendChild(addButton);
+
+        // Append the form to the body (or another element)
+        document.body.appendChild(formContainer);
+    };
+
     function addQuote() {
-        newText = newQuoteText.value.trim();
-        newCategory = newQuoteCategory.value.trim()
+        const newText = quoteInput.value.trim();
+        const newCategory = categoryInput.value.trim();
 
         if (newText !== "" && newCategory !== "") {
             // Push a new quote object into the array
@@ -59,8 +90,8 @@ document.addEventListener("DOMContentLoaded", () =>{
             alert("Quote added successfully!");
 
             // Clear the input fields
-            newQuoteText.value = "";
-            newQuoteCategory.value = "";
+            quoteInput.value = "";
+            categoryInput.value = "";
 
         //Display new quote
         quoteDisplay.textContent = newText;
@@ -70,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () =>{
         }
     };
 
+    createAddQuoteForm()
     showButton.addEventListener("click", showRandomQuote);
-    addButton.addEventListener("click", addQuote);
     
 });
