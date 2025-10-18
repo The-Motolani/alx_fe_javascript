@@ -98,9 +98,7 @@ document.addEventListener("DOMContentLoaded", () =>{
 
         addButton.addEventListener("click", addQuote);
 
-         const exportButton = document.createElement("button");
-        exportButton.id = "exportBtn";
-        exportButton.textContent = "Export Quotes";
+         const exportButton = document.getElementById("exportBtn");
         exportButton.addEventListener("click", exportToJsonFile);
 
          const importInput = document.createElement("input");
@@ -112,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () =>{
         formContainer.appendChild(quoteInput);
         formContainer.appendChild(categoryInput);
         formContainer.appendChild(addButton);
-        formContainer.appendChild(exportButton);
         formContainer.appendChild(importInput);
 
         // Append the form to the body (or another element)
