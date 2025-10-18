@@ -13,10 +13,20 @@
     </head>
     <body>
         <h1>Dynamic Quote Generator</h1>
+        <label for="categoryFilter">Filter by category: <br>
+        <select id="categoryFilter" onchange="filterQuotes()">
+        
+        <option value="all" id ="all">All Categories</option>
+        <!-- Dynamically populated categories -->
+        </select>
+        </label>
         <div id = "quoteDisplay"></div>
        <button id="exportBtn">Export Quotes</button>
-       <label for="inputFile">Import Quotes</label>
+       
+       <label for="inputFile">Import Quotes<br>
        <input type="file" id="inputFile">
+       </label>
+       
         <button id = "newQuote">Show New Quote</button>
         <!---
          <div>
