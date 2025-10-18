@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () =>{
         const randomQuote = quotes[randomIndex];
         // display the quote
         quoteDisplay.innerHTML = randomQuote.text;
-
+        // show your last viewed quote
         sessionStorage.setItem("lastViewedQuote", randomQuote.text);
     };
 
@@ -98,15 +98,21 @@ document.addEventListener("DOMContentLoaded", () =>{
 
         addButton.addEventListener("click", addQuote);
 
+         const exportButton = document.createElement("button");
+        exportButton.id = "exportBtn";
+        exportButton.textContent = "Export Quotes";
+        exportButton.addEventListener("click", exportToJsonFile);
+
+         const importInput = document.createElement("input");
+        importInput.type = "file";
+        importInput.accept = "application/json";
+        importInput.addEventListener("change", importFromJsonFile);
+
     // Append elements to the form container
         formContainer.appendChild(quoteInput);
         formContainer.appendChild(categoryInput);
         formContainer.appendChild(addButton);
-
-        const importInput = document.createElement("input");
-        importInput.type = "file";
-        importInput.accept = "application/json";
-        importInput.addEventListener("change", importQuotes);
+        formContainer.appendChild(exportButton);
         formContainer.appendChild(importInput);
 
         // Append the form to the body (or another element)
@@ -138,7 +144,8 @@ document.addEventListener("DOMContentLoaded", () =>{
         }
     }; */
 
-     function exportQuotes() {
+     function exportToJsonFile() {
+         const quotes = JSON.parse(localStorage.getItem("quotes")) || [];
         const data = JSON.stringify(quotes, null, 2);
         const blob = new Blob([data], { type: "application/json" });
         const url = URL.createObjectURL(blob);
@@ -151,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () =>{
         URL.revokeObjectURL(url);
     }
 
-    function importQuotes(event) {
+    function importFromJsonFile(event) {
         const file = event.target.files[0];
         if (!file) return;
 
