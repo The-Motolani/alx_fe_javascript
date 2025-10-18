@@ -101,8 +101,7 @@ document.addEventListener("DOMContentLoaded", () =>{
          const exportButton = document.getElementById("exportBtn");
         exportButton.addEventListener("click", exportToJsonFile);
 
-         const importInput = document.createElement("input");
-        importInput.type = "file";
+         const importInput = document.getElementById("inputFile");
         importInput.accept = "application/json";
         importInput.addEventListener("change", importFromJsonFile);
 
@@ -110,7 +109,6 @@ document.addEventListener("DOMContentLoaded", () =>{
         formContainer.appendChild(quoteInput);
         formContainer.appendChild(categoryInput);
         formContainer.appendChild(addButton);
-        formContainer.appendChild(importInput);
 
         // Append the form to the body (or another element)
         document.body.appendChild(formContainer);
