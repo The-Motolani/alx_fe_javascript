@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     const addButton = document.getElementById("addQuoteButton");
     */
 
-    let quotes = [
+    let quotes = JSON.parse(localStorage.getItem("quotes")) || [
         {text: "'Formal education will make you a living; self-education will make you a fortune.' - Jim Rohn", category: "Discipline"},
         {text: '"I do love nothing in the world so well as you." - William Shakespeare', category: "Poets"},
         {text: '"Love looks not with the eyes, but with the mind and therefore is winged Cupid painted blind" - William Shakespeare', category: "Poets"},
@@ -48,6 +48,8 @@ document.addEventListener("DOMContentLoaded", () =>{
         const randomQuote = quotes[randomIndex];
         // display the quote
         quoteDisplay.innerHTML = randomQuote.text;
+
+        sessionStorage.setItem("lastViewedQuote", randomQuote.text);
     };
 
     
@@ -67,18 +69,8 @@ document.addEventListener("DOMContentLoaded", () =>{
         // Create Add button
         const addButton = document.createElement("button");
         addButton.textContent = "Add Quote";
-        addButton.addEventListener("click", addQuote);
 
-    // Append elements to the form container
-        formContainer.appendChild(quoteInput);
-        formContainer.appendChild(categoryInput);
-        formContainer.appendChild(addButton);
-
-        // Append the form to the body (or another element)
-        document.body.appendChild(formContainer);
-    };
-
-    function addQuote() {
+        function addQuote() {
         const newText = quoteInput.value.trim();
         const newCategory = categoryInput.value.trim();
 
@@ -86,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () =>{
             // Push a new quote object into the array
             quotes.push({ text: newText, category: newCategory });
             
+            localStorage.setItem("quotes", JSON.stringify(quotes));
+
         // Give user feedback
             alert("Quote added successfully!");
 
@@ -100,6 +94,85 @@ document.addEventListener("DOMContentLoaded", () =>{
             alert("Please enter a quote and its category");
         }
     };
+
+
+        addButton.addEventListener("click", addQuote);
+
+    // Append elements to the form container
+        formContainer.appendChild(quoteInput);
+        formContainer.appendChild(categoryInput);
+        formContainer.appendChild(addButton);
+
+        const importInput = document.createElement("input");
+        importInput.type = "file";
+        importInput.accept = "application/json";
+        importInput.addEventListener("change", importQuotes);
+        formContainer.appendChild(importInput);
+
+        // Append the form to the body (or another element)
+        document.body.appendChild(formContainer);
+    };
+
+    /* function addQuote() {
+        const newText = quoteInput.value.trim();
+        const newCategory = categoryInput.value.trim();
+
+        if (newText !== "" && newCategory !== "") {
+            // Push a new quote object into the array
+            quotes.push({ text: newText, category: newCategory });
+            
+            localStorage.setItem("quotes", JSON.stringify(quotes));
+
+        // Give user feedback
+            alert("Quote added successfully!");
+
+            // Clear the input fields
+            quoteInput.value = "";
+            categoryInput.value = "";
+
+        //Display new quote
+        quoteDisplay.textContent = newText;
+
+        } else {
+            alert("Please enter a quote and its category");
+        }
+    }; */
+
+     function exportQuotes() {
+        const data = JSON.stringify(quotes, null, 2);
+        const blob = new Blob([data], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "quotes.json";
+        a.click();
+
+        URL.revokeObjectURL(url);
+    }
+
+    function importQuotes(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importedQuotes = JSON.parse(e.target.result);
+                quotes = importedQuotes;
+                localStorage.setItem("quotes", JSON.stringify(quotes));
+                alert("Quotes imported successfully!");
+            } catch {
+                alert("Invalid JSON file");
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    const lastQuote = sessionStorage.getItem("lastViewedQuote");
+    if (lastQuote) {
+        quoteDisplay.textContent = `Last viewed: ${lastQuote}`;
+    }
 
     createAddQuoteForm()
     showButton.addEventListener("click", showRandomQuote);
