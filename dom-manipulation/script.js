@@ -294,6 +294,83 @@ document.addEventListener("DOMContentLoaded", () =>{
     }
         };
 
+    // Mock API endpoint (JSONPlaceholder-style)
+const SERVER_URL = "https://jsonplaceholder.typicode.com/posts"; 
+
+// Fetch quotes from server (simulation)
+async function fetchQuotesFromServer() {
+  try {
+    const response = await fetch(SERVER_URL);
+    const data = await response.json();
+
+    // Simulate converting server posts to your quote format
+    return data.slice(0, 5).map(post => ({
+      text: post.title,
+      category: "general"
+    }));
+  } catch (error) {
+    console.error("Error fetching quotes from server:", error);
+    return [];
+  }
+}
+
+async function postQuoteToServer(quote) {
+  try {
+    const response = await fetch(SERVER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(quote)
+    });
+    const result = await response.json();
+    console.log("Quote posted to server:", result);
+  } catch (error) {
+    console.error("Error posting quote to server:", error);
+  }
+}
+
+async function syncQuotes() {
+  const localQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
+  const serverQuotes = await fetchQuotesFromServer();
+
+  // Conflict Resolution: Server takes precedence
+  const mergedQuotes = resolveConflicts(localQuotes, serverQuotes);
+
+  localStorage.setItem("quotes", JSON.stringify(mergedQuotes));
+
+  // Notify UI
+  notifyUser("Quotes synced successfully with server!");
+}
+
+// Check every 30 seconds
+setInterval(syncQuotes, 30000);
+
+function resolveConflicts(local, server) {
+  const localTexts = local.map(q => q.text);
+  const newServerQuotes = server.filter(q => !localTexts.includes(q.text));
+
+  // Server has priority: overwrite duplicates
+  return [...newServerQuotes, ...local];
+}
+
+function notifyUser(message) {
+  const notification = document.createElement("div");
+  notification.textContent = message;
+  notification.style.position = "fixed";
+  notification.style.bottom = "20px";
+  notification.style.right = "20px";
+  notification.style.backgroundColor = "#222";
+  notification.style.color = "#fff";
+  notification.style.padding = "10px 15px";
+  notification.style.borderRadius = "8px";
+  notification.style.zIndex = "1000";
+  
+  document.body.appendChild(notification);
+  setTimeout(() => notification.remove(), 4000);
+}
+
+
     populateCategories(); 
     createAddQuoteForm();
     showButton.addEventListener("click", showRandomQuote);
