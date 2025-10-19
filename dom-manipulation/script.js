@@ -340,7 +340,7 @@ async function syncQuotes() {
   localStorage.setItem("quotes", JSON.stringify(mergedQuotes));
 
   // Notify UI
-  notifyUser("Quotes synced successfully with server!");
+  notifyUser("Quotes synced with server!");
 }
 
 // Check every 30 seconds
