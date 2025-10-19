@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () =>{
         document.body.appendChild(formContainer);
     };
 
-    /* function addQuote() {
+    /*function addQuote() {
         const newText = quoteInput.value.trim();
         const newCategory = categoryInput.value.trim();
 
@@ -235,7 +235,6 @@ document.addEventListener("DOMContentLoaded", () =>{
         quoteDisplay.textContent = `Last viewed: ${lastQuote}`;
     }
 
-/*
     function populateCategories() {
        const select = document.getElementById("categoryFilter");
         select.innerHTML = `<option value="All">All</option>`;
@@ -295,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     }
         };
 
-    populateCategories(); */
+    populateCategories(); 
     createAddQuoteForm();
     showButton.addEventListener("click", showRandomQuote);
     
