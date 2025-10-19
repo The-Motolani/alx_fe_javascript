@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", () =>{
     */
 
     let quotes = JSON.parse(localStorage.getItem("quotes")) || [
+         { text: "Believe in yourself.", category: "Motivation" },
+    { text: "Love conquers all.", category: "Love" },
+    { text: "Stay hungry, stay foolish.", category: "Inspiration" },
         {text: "'Formal education will make you a living; self-education will make you a fortune.' - Jim Rohn", category: "Discipline"},
         {text: '"I do love nothing in the world so well as you." - William Shakespeare', category: "Poets"},
         {text: '"Love looks not with the eyes, but with the mind and therefore is winged Cupid painted blind" - William Shakespeare', category: "Poets"},
@@ -65,10 +68,10 @@ document.addEventListener("DOMContentLoaded", () =>{
 {text: `"You\'ll see it when you believe it." - Wayne Dyer`, category: "Success"},  
 {text: `"To lead people walk behind them." - Lao Tzu`, category: "Leadership"}, 
 {text: `"Having nothing, nothing can he lose." - William Shakespeare`, category: "Poets"}, 
-{text: `"Trouble is only opportunity in work clothes." - Henry J. Kaiser`, category: ""}, 
+{text: `"Trouble is only opportunity in work clothes." - Henry J. Kaiser`, category: "Inspiration"}, 
 {text: `"A rolling stone gathers no moss." - Publilius Syrus`, category: "Motivation"}, 
 {text: `"Ideas are the beginning points of all fortunes." - Napoleon Hill`, category: "Motivation"},
- {text: "'Everything in life is luck.' - Donald Trump", categpry: ""},
+ {text: "'Everything in life is luck.' - Donald Trump", category: "Philosopy"},
  {text: "'Doing nothing is better than being busy doing nothing.' - Lao Tzu", category: "Philosophy"}, 
  {text: "'Trust yourself. You know more than you think you do.' - Benjamin Spock", category: "Motivation"}, 
 {text: "'Study the past, if you would divine the future.' - Confucius", category: "Philosophy"}, 
@@ -112,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () =>{
             localStorage.setItem("quotes", JSON.stringify(quotes));
 
             const select = document.getElementById("all");
-        const categoryExists = Array.from(select.options).some(
+        const categoryExists = quotes.from(select.options).some(
             (option) => option.value.toLowerCase() === newCategory.toLowerCase()
         );
 
@@ -232,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () =>{
         quoteDisplay.textContent = `Last viewed: ${lastQuote}`;
     }
 
-
+/*
     function populateCategories() {
        const select = document.getElementById("categoryFilter");
         select.innerHTML = `<option value="All">All</option>`;
@@ -292,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     }
         };
 
-    populateCategories();
+    populateCategories(); */
     createAddQuoteForm();
     showButton.addEventListener("click", showRandomQuote);
     
